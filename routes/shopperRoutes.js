@@ -8,6 +8,7 @@ router.get('/user/:userId', shopperController.getShoppersForUser);
 router.get(
   '/user/:userId/items',
   shopperController.getShoppersWithItemsForUser,
+  // shopperController.test,
 );
 
 router
