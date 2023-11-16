@@ -47,8 +47,6 @@ exports.getShoppersWithItemsForUser = catchAsync(async (req, res, next) => {
     '-__v',
   );
 
-  console.log(shoppers);
-
   const shoppersWithItems = await Promise.all(
     shoppers.map(async (shopper) => {
       const items = await Item.find({ shoppers: shopper._id }).select(

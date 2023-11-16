@@ -7,6 +7,10 @@ router.route('/:userId').get(itemController.getItemsForUser);
 
 router.route('/:itemId/:shopperId').put(itemController.addShopperToItem);
 
+router
+  .route('/:itemId/:shopperId')
+  .delete(itemController.deleteShopperFromItem);
+
 router.route('/').get(itemController.getItems).post(itemController.createItem);
 
 module.exports = router;

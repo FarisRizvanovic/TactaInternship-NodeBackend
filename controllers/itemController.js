@@ -56,3 +56,48 @@ exports.addShopperToItem = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// exports.deleteShopperFromItem = catchAsync(async (req, res, next) => {
+//   const item = await Item.findById(req.params.itemId);
+
+//   // item.shoppers.pull(req.params.shopperId);
+
+//   await Item.updateOne(
+//     { _id: req.params.itemId, shoppers: req.params.shopperId },
+//     {
+//       $pull: { shoppers: req.params.shopperId },
+//       $slice: { shoppers: 1 },
+//     },
+//   );
+
+//   await item.save();
+
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       item,
+//     },
+//   });
+// });
+
+exports.deleteShopperFromItem = catchAsync(async (req, res, next) => {
+  const item = await Item.findById(req.params.itemId);
+
+  let removed = false;
+
+  item.shoppers.forEach((shopper, index) => {
+    if (shopper !== req.params.shopperId && !removed) {
+      removed = true;
+      item.shoppers.splice(index, 1);
+    }
+  });
+
+  await item.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      item,
+    },
+  });
+});
