@@ -78,3 +78,12 @@ exports.deleteShopperFromItem = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.deleteItem = catchAsync(async (req, res, next) => {
+  await Item.findByIdAndDelete(req.params.itemId);
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});

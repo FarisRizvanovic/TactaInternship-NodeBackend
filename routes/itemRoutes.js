@@ -7,6 +7,8 @@ router.route('/:userId').get(itemController.getItemsForUser);
 
 router.route('/:itemId/:shopperId').put(itemController.addShopperToItem);
 
+router.route('/:itemId').delete(itemController.deleteItem);
+
 router
   .route('/:itemId/:shopperId')
   .delete(itemController.deleteShopperFromItem);

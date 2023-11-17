@@ -1,6 +1,7 @@
 const Shopper = require('../models/shopperModel');
 const catchAsync = require('../utils/catchAsync');
 const Item = require('../models/itemModel');
+const AppError = require('../utils/appError');
 
 exports.createShopper = catchAsync(async (req, res, next) => {
   const newShopper = await Shopper.create({
@@ -94,5 +95,26 @@ exports.test = catchAsync(async (req, res, next) => {
     data: {
       shoppers,
     },
+  });
+});
+
+// exports.deleteShopper = catchAsync(async (req, res, next) => {
+//   // await Shopper.deleteOne({ _id: req.params.shopperId });
+//   await Shopper.findByIdAndDelete(req.params.shopperId);
+
+//   res.status(204).json({
+//     status: 'success',
+//     data: null,
+//   });
+// });
+
+exports.deleteShopper = catchAsync(async (req, res, next) => {
+  const shopper = await Shopper.findById(req.params.shopperId);
+
+  await shopper.deleteOne();
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });

@@ -13,6 +13,19 @@ const shopperSchema = new mongoose.Schema({
   },
 });
 
+shopperSchema.pre(
+  'deleteOne',
+  { document: true, query: false },
+  async function (next) {
+    // await this.model('Item').deleteMany({ shoppers: this._id });
+    await this.model('Item').updateMany(
+      { shoppers: this._id },
+      { $pull: { shoppers: this._id } },
+    );
+    next();
+  },
+);
+
 const Shopper = mongoose.model('Shopper', shopperSchema);
 
 module.exports = Shopper;
