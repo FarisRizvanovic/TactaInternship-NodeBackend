@@ -1,5 +1,6 @@
 const AppError = require('../utils/appError');
 
+// Sends error in development
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -9,16 +10,19 @@ const sendErrorDev = (err, res) => {
   });
 };
 
+// Handles invalid database IDs
 const handleCastErrorDB = (err) => {
   const message = `Invalid ${err.path}: ${err.value}.`;
   return new AppError(message, 400);
 };
 
+// Handles duplicate fields in the database
 const handleDuplicateFieldsDB = (err) => {
   const message = `Duplicate field value: ${err.keyValue.name}. Please use another value!`;
   return new AppError(message, 400);
 };
 
+// Sends error in production
 const sendErrorProduction = (err, res) => {
   // Operational, trusted errors
   if (err.isOperational) {

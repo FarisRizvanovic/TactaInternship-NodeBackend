@@ -23,6 +23,7 @@ const itemSchema = new mongoose.Schema({
   },
 });
 
+// Makes sure that no more than 3 shoppers can be added to an item
 itemSchema.pre('save', async function (next) {
   if (this.shoppers.length > 2) {
     this.active = false;
@@ -33,16 +34,16 @@ itemSchema.pre('save', async function (next) {
   next();
 });
 
+// Makes sure that no more than 3 shoppers can be added to an item
 itemSchema.pre('save', async function (next) {
   if (this.shoppers.length > 3) {
-    // this.active = false;
     return next(new Error('An item can only have 3 shoppers', 400));
   }
-  // this.active = true;
 
   next();
 });
 
+// Makes sure that if a user removes an item the item is again active and can be added to a shopper's list
 itemSchema.pre('remove', async function (next) {
   this.active = this.shoppers.length - 1 > 3;
 

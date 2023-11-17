@@ -13,11 +13,11 @@ const shopperSchema = new mongoose.Schema({
   },
 });
 
+// Deletes all occurrences of the shopper with the given ID in the items collection
 shopperSchema.pre(
   'deleteOne',
   { document: true, query: false },
   async function (next) {
-    // await this.model('Item').deleteMany({ shoppers: this._id });
     await this.model('Item').updateMany(
       { shoppers: this._id },
       { $pull: { shoppers: this._id } },

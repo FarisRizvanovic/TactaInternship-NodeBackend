@@ -1,6 +1,7 @@
 const Item = require('../models/itemModel');
 const catchAsync = require('../utils/catchAsync');
 
+// Creates the item with the given name
 exports.createItem = catchAsync(async (req, res, next) => {
   const newItem = await Item.create({
     name: req.body.name,
@@ -15,6 +16,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
   });
 });
 
+// Gets all items
 exports.getItems = catchAsync(async (req, res, next) => {
   const items = await Item.find().select('-__v');
 
@@ -27,6 +29,7 @@ exports.getItems = catchAsync(async (req, res, next) => {
   });
 });
 
+// Gets all items for the given user ID
 exports.getItemsForUser = catchAsync(async (req, res, next) => {
   const items = await Item.find({ user: req.params.userId }).select('-__v');
 
@@ -39,6 +42,7 @@ exports.getItemsForUser = catchAsync(async (req, res, next) => {
   });
 });
 
+// Add a shopper to an item because the item is on the shopper's list
 exports.addShopperToItem = catchAsync(async (req, res, next) => {
   const item = await Item.findById(req.params.itemId);
 
@@ -57,6 +61,7 @@ exports.addShopperToItem = catchAsync(async (req, res, next) => {
   });
 });
 
+// Remove a shopper from an item
 exports.deleteShopperFromItem = catchAsync(async (req, res, next) => {
   const item = await Item.findById(req.params.itemId);
 
@@ -79,6 +84,7 @@ exports.deleteShopperFromItem = catchAsync(async (req, res, next) => {
   });
 });
 
+// Deletes the item with the given ID
 exports.deleteItem = catchAsync(async (req, res, next) => {
   await Item.findByIdAndDelete(req.params.itemId);
 

@@ -6,25 +6,17 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  shoppers: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Shopper',
-      },
-    ],
-    select: false,
-  },
-  items: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Item',
-      },
-    ],
-    select: false,
-  },
 });
+
+userSchema.pre(
+  'deleteOne',
+  { document: true, query: false },
+  async function (next) {
+    await this.model('Item').deleteMany({ user: this._id });
+    await this.model('Shopper').deleteMany({ user: this._id });
+    next();
+  },
+);
 
 const User = mongoose.model('User', userSchema);
 

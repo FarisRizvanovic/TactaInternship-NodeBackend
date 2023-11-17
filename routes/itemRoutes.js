@@ -3,11 +3,11 @@ const itemController = require('../controllers/itemController');
 
 const router = express.Router();
 
-router.route('/:userId').get(itemController.getItemsForUser);
+router.get('/:userId', itemController.getItemsForUser);
 
-router.route('/:itemId/:shopperId').put(itemController.addShopperToItem);
+router.put('/:itemId/:shopperId', itemController.addShopperToItem);
 
-router.route('/:itemId').delete(itemController.deleteItem);
+router.delete('/:itemId', itemController.deleteItem);
 
 router
   .route('/:itemId/:shopperId')
