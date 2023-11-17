@@ -1,7 +1,6 @@
 const Shopper = require('../models/shopperModel');
 const catchAsync = require('../utils/catchAsync');
 const Item = require('../models/itemModel');
-const AppError = require('../utils/appError');
 
 // Creates the shopper with the given name
 exports.createShopper = catchAsync(async (req, res, next) => {
