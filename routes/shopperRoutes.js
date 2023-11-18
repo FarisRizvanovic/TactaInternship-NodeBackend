@@ -5,13 +5,13 @@ const router = express.Router();
 
 router.get('/user/:userId', shopperController.getShoppersForUser);
 
-router.delete('/:shopperId', shopperController.deleteShopper);
-
 router.get(
   '/user/:userId/items',
   shopperController.getShoppersWithItemsForUser,
   // shopperController.test,
 );
+
+router.delete('/:shopperId', shopperController.deleteShopper);
 
 router
   .route('/')

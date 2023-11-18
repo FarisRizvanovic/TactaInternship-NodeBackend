@@ -1,9 +1,17 @@
 const Shopper = require('../models/shopperModel');
 const catchAsync = require('../utils/catchAsync');
 const Item = require('../models/itemModel');
+const User = require('../models/userModel');
+const AppError = require('../utils/appError');
 
 // Creates the shopper with the given name
 exports.createShopper = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.body.userId);
+
+  if (!user) {
+    return next(new AppError('No user found with that ID', 404));
+  }
+
   const newShopper = await Shopper.create({
     name: req.body.name,
     user: req.body.userId,
@@ -32,6 +40,12 @@ exports.getAllShoppers = catchAsync(async (req, res, next) => {
 
 // Gets all shopper for the given user ID
 exports.getShoppersForUser = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.userId);
+
+  if (!user) {
+    return next(new AppError('No user found with that ID', 404));
+  }
+
   const shoppers = await Shopper.find({ user: req.params.userId }).select(
     '-__v',
   );
@@ -47,6 +61,12 @@ exports.getShoppersForUser = catchAsync(async (req, res, next) => {
 
 // Gets all shoppers with items for the given user ID
 exports.getShoppersWithItemsForUser = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.userId);
+
+  if (!user) {
+    return next(new AppError('No user found with that ID', 404));
+  }
+
   const shoppers = await Shopper.find({ user: req.params.userId }).select(
     '-__v',
   );
@@ -88,6 +108,10 @@ exports.getShoppersWithItemsForUser = catchAsync(async (req, res, next) => {
 // Deletes the shopper with the given ID
 exports.deleteShopper = catchAsync(async (req, res, next) => {
   const shopper = await Shopper.findById(req.params.shopperId);
+
+  if (!shopper) {
+    return next(new AppError('No shopper found with that ID', 404));
+  }
 
   await shopper.deleteOne();
 
