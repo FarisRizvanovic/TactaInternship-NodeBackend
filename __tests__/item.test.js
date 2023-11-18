@@ -6,7 +6,7 @@ const User = require('../models/userModel');
 const Item = require('../models/itemModel');
 const Shopper = require('../models/shopperModel');
 
-describe('Items', () => {
+describe('Item', () => {
   let testUser;
   let testItem;
   let testShopper;
@@ -31,7 +31,7 @@ describe('Items', () => {
     await Item.findByIdAndDelete(testItem._id);
     await mongoose.connection.close();
   });
-
+  // This should be first because it creates the item
   describe('create item route', () => {
     describe('given the user does not exist', () => {
       it('should return a 404 status code', async () => {
@@ -51,7 +51,8 @@ describe('Items', () => {
           .post('/api/v1/items')
           .send({ name: 'Test Item', userId: testUser._id });
 
-        console.log(response.body);
+        await Item.findByIdAndDelete(response.body.data.item._id);
+
         expect(response.statusCode).toBe(201);
       });
     });

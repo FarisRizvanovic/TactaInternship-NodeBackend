@@ -16,7 +16,7 @@ mongoose.connect(DB).then(() => {
 
 const app = require('./app');
 
-if (!process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test') {
   const port = process.env.PORT || 3002;
 
   app.listen(port, () => {

@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 // Creates the user with the given name
@@ -29,6 +30,10 @@ exports.getUsers = catchAsync(async (req, res, next) => {
 // Deletes the user with the given ID
 exports.deleteUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.userId);
+
+  if (!user) {
+    return next(new AppError('No user found with that ID', 404));
+  }
 
   await user.deleteOne();
 
