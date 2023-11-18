@@ -37,9 +37,12 @@ npm install
   ```
 
 - 3. Running the app in production (hides dangerous error details)
+
   ```
   npm start:prod
   ```
+
+  **After this take look at the [ReactFrontend](https://github.com/FarisRizvanovic/TactaInternship-Frontend) and its instructions**
 
 ## Built with
 
@@ -51,7 +54,7 @@ npm install
 
 ## Project Structure
 
-- ****tests**:** Directory containing test files for the application.
+- \***\*tests**:\*\* Directory containing test files for the application.
 - **controllers:** Directory with files handling the application's business logic.
 - **models:** Directory containing files defining the structure of data in the database.
 - **routes:** Directory with files defining endpoints and route handlers.
