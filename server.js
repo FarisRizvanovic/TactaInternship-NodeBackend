@@ -9,12 +9,19 @@ const DB = process.env.DATABASE.replace(
 );
 
 mongoose.connect(DB).then(() => {
-  console.log('DB connection successful!');
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('DB connection successful!');
+  }
 });
 
 const app = require('./app');
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
-});
+if (!process.env.NODE_ENV !== 'test') {
+  const port = process.env.PORT || 3002;
+
+  app.listen(port, () => {
+    console.log(`App running on port ${port}...`);
+  });
+}
+
+module.exports = app;

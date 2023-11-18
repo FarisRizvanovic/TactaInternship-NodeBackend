@@ -1,5 +1,7 @@
 const Item = require('../models/itemModel');
 const catchAsync = require('../utils/catchAsync');
+const User = require('../models/userModel');
+const AppError = require('../utils/appError');
 
 // Creates the item with the given name
 exports.createItem = catchAsync(async (req, res, next) => {
@@ -31,6 +33,12 @@ exports.getItems = catchAsync(async (req, res, next) => {
 
 // Gets all items for the given user ID
 exports.getItemsForUser = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.userId);
+
+  if (!user) {
+    return next(new AppError('No user found with that ID', 404));
+  }
+
   const items = await Item.find({ user: req.params.userId }).select('-__v');
 
   res.status(200).json({
