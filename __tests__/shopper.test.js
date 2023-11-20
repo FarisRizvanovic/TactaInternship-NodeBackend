@@ -19,6 +19,12 @@ describe('Shopper', () => {
     });
   });
 
+  afterAll(async () => {
+    await User.findByIdAndDelete(testUser._id);
+    await Shopper.findByIdAndDelete(testShopper._id);
+    await mongoose.connection.close();
+  });
+
   describe('create shopper route', () => {
     describe('given the user does not exist', () => {
       it('should return a 404 status code', async () => {
